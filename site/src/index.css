@@ -1,0 +1,172 @@
+@import 'tailwindcss';
+
+/*
+  Editorial / essayistic theme — warm paper, deep ink, serif voice, brass signal.
+  Ported from the Astro version; the type does the work.
+*/
+@theme {
+  --font-serif: 'Newsreader', 'Source Serif 4', Georgia, serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  --color-paper: #fbfaf7;
+  --color-ink: #1a1a18;
+  --color-muted: #5f5d57;
+  --color-faint: #908d85;
+  --color-rule: #e6e3da;
+  --color-accent: #7a2e23;        /* oxblood — links */
+  --color-brass: hsl(38 70% 48%);  /* the "fix" / signal in the diagram */
+  --color-overflow: hsl(8 58% 47%);
+  --color-calm: hsl(150 30% 40%);
+
+  --measure: 38rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-paper: #14130f;
+    --color-ink: #ece9e0;
+    --color-muted: #a39f95;
+    --color-faint: #6b6860;
+    --color-rule: #2a2823;
+    --color-accent: #c97b5e;
+    --color-brass: hsl(38 78% 60%);
+    --color-overflow: hsl(8 65% 58%);
+    --color-calm: hsl(150 38% 54%);
+  }
+}
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-serif);
+  font-size: 19px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+body { margin: 0; }
+
+/* sticky header offset so anchor jumps don't hide section tops under it */
+section[id] { scroll-margin-top: 5rem; }
+
+a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, var(--color-accent) 35%, transparent); }
+a:hover { text-decoration-color: var(--color-accent); }
+::selection { background: color-mix(in srgb, var(--color-accent) 22%, transparent); }
+
+.sans { font-family: var(--font-sans); }
+.mono { font-family: var(--font-mono); }
+h1, h2, h3 { font-weight: 500; letter-spacing: -0.01em; line-height: 1.15; }
+
+.lead { font-size: 1.35rem; line-height: 1.55; color: var(--color-ink); }
+
+/* subtle highlighter-style mark behind a word */
+mark.hl {
+  background: color-mix(in srgb, var(--color-accent) 25%, transparent);
+  color: inherit;
+  padding: 0.23em 0.0em;       /* taller swipe; hug the word horizontally */
+  border-radius: 0px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* beat the global `a { text-decoration: underline }` rule; keep the accent color */
+/* method flow — shooting-star comet that streaks between stages */
+.star-comet {
+  position: relative;
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 8px 2px color-mix(in srgb, var(--color-accent) 70%, transparent);
+}
+.star-comet::before {
+  /* the trailing tail, swept behind the head (travel is left→right) */
+  content: '';
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  height: 2px;
+  width: 34px;
+  transform: translateY(-50%);
+  background: linear-gradient(to left, color-mix(in srgb, var(--color-accent) 85%, transparent), transparent);
+  border-radius: 2px;
+}
+/* method flow label font — editorial serif, matching the rest of the site */
+.method-flow .method-label { font-family: var(--font-serif); }
+.method-flow .method-hint { font-family: var(--font-serif); font-style: italic; }
+@media (prefers-reduced-motion: reduce) {
+  .star-comet, .star-comet::before { box-shadow: none; }
+}
+
+/* project status indicator dot */
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-faint);
+  flex: none;
+}
+.status-dot.is-live {
+  background: var(--color-brass);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-brass) 70%, transparent);
+  animation: status-pulse 2s ease-out infinite;
+}
+@keyframes status-pulse {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-brass) 55%, transparent); }
+  70%  { box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-brass) 0%, transparent); }
+  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-brass) 0%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .status-dot.is-live { animation: none; }
+}
+
+.wordmark, .wordmark:hover { text-decoration: none; color: var(--color-accent); }
+.nav-link, .nav-link:hover { text-decoration: none; }
+/* back-link: no stray underline; subtle underline on the label on hover */
+.back-link, .back-link:hover { text-decoration: none; }
+.footer-link, .footer-link:hover { text-decoration: none; }
+.cert-link, .cert-link:hover { text-decoration: none; }
+.back-link span:last-child { background-image: linear-gradient(var(--color-accent), var(--color-accent)); background-size: 0% 1px; background-position: 0 100%; background-repeat: no-repeat; transition: background-size 0.25s ease; padding-bottom: 2px; }
+.back-link:hover span:last-child { background-size: 100% 1px; }
+/* work rows: no underline at rest (whole row is a link); title underlines on hover */
+.work-card, .work-card:hover, .work-card * { text-decoration: none; }
+
+/* nav: underline draws in from the left on hover; stays drawn when active */
+.nav-link .nav-label {
+  position: relative;
+  letter-spacing: 0.01em;
+}
+.nav-link .nav-label::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.28s ease;
+}
+.nav-link:hover .nav-label::after,
+.nav-link.is-active .nav-label::after {
+  transform: scaleX(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-link .nav-label::after { transition: none; }
+}
+
+/* long-form project body */
+.prose-body h2 { font-size: 1.4rem; margin: 2.5rem 0 0.75rem; }
+.prose-body p { margin: 0 0 1.2rem; color: var(--color-muted); }
+.prose-body strong { font-weight: 600; color: var(--color-ink); }
+.prose-body em { font-style: italic; }
+.prose-body ul { margin: 0 0 1.2rem; padding-left: 1.2rem; }
+.prose-body li { margin: 0.35rem 0; color: var(--color-muted); }
