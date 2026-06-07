@@ -67,7 +67,7 @@ function SiteHeader() {
       }`}
       style={condensed ? { background: 'color-mix(in srgb, var(--color-paper) 82%, transparent)' } : undefined}
     >
-      <Link to="/" className="wordmark text-2xl font-medium tracking-tight">
+      <Link to="/" className="wordmark text-2xl">
         {site.name}
       </Link>
       <nav className="flex items-center gap-3 sm:gap-6">
@@ -77,7 +77,7 @@ function SiteHeader() {
             <a
               key={id}
               href={`/#${id}`}
-              className={`nav-link sans group flex items-center gap-1.5 text-[0.72rem] font-semibold tracking-wide no-underline transition-colors ${
+              className={`nav-link group flex items-center gap-1.5 text-[0.8rem] font-medium tracking-normal no-underline transition-colors ${
                 active ? 'text-[var(--color-accent)]' : 'text-[var(--color-muted)] hover:text-[var(--color-accent)]'
               } ${active ? 'is-active' : ''}`}
             >
