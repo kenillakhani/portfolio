@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { Home } from './pages/Home';
 import { Work } from './pages/Work';
 import { Thinking } from './pages/Thinking';
@@ -24,6 +25,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollManager />
+      <Analytics />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/work/:slug" element={<Work />} />
